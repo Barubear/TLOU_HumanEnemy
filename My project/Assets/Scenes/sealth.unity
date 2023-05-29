@@ -123,6 +123,64 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &7882068
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7882070}
+  - component: {fileID: 7882069}
+  m_Layer: 0
+  m_Name: NavMap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &7882069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7882068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4555048bcf4ca74aaf08aff63fd4dde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VisualMap: {fileID: 1941248121}
+  wallList:
+  - {fileID: 737622281}
+  - {fileID: 1771424911}
+  - {fileID: 916569660}
+  - {fileID: 944766302}
+  - {fileID: 1995548584}
+  - {fileID: 1165870336}
+  - {fileID: 1001994395}
+  - {fileID: 1833143977}
+  - {fileID: 1291731490}
+  - {fileID: 745632695}
+  - {fileID: 16761479}
+  - {fileID: 1401337615}
+  - {fileID: 487461820}
+--- !u!4 &7882070
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7882068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -53.6, y: -12.587257, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &16761479
 GameObject:
   m_ObjectHideFlags: 0
@@ -1300,7 +1358,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1379647874
 Transform:
   m_ObjectHideFlags: 0
@@ -1395,7 +1453,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1383681209
 Transform:
   m_ObjectHideFlags: 0
@@ -1775,7 +1833,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1867673018
 Transform:
   m_ObjectHideFlags: 0
@@ -1897,10 +1955,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapWidth: 100
   mapHight: 100
-  mapCell: {fileID: 316526116726974838, guid: 5e06a8369206154408987ec95c9b3534, type: 3}
+  mapCell: {fileID: 4295891610327540082, guid: de65f6669bf83aa4f884d31f5ad6be65, type: 3}
   ground: {fileID: 440431137}
-  cellColliderCheck: {fileID: 0}
-  wallList: []
   visualHifht: 5
   cellSize: 1
 --- !u!1 &1964944747
