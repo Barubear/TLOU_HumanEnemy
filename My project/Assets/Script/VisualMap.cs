@@ -9,16 +9,18 @@ public class VisualMap : MonoBehaviour
     
     public GameObject mapCell;
     public GameObject ground;
+    
+    
     public float visualHifht;
     
     public float cellSize = 1;
 
     Vector3 startPos;
-    float[,] mapValueList ;
+    public GameObject[,] visualMap;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        mapValueList = new float[mapWidth, mapHight];
+        visualMap = new GameObject[mapWidth, mapHight];
         Renderer renderer = ground.GetComponent<Renderer>();
         Vector3 size = renderer.bounds.size;
         Vector3 center = renderer.bounds.center;
@@ -29,8 +31,17 @@ public class VisualMap : MonoBehaviour
             
             for (int h = 0; h < mapHight; h++)
             {
-                mapValueList[w, h] = 0;
-                Instantiate(mapCell,new Vector3(startPos.x + cellSize*w, startPos.y, startPos.z - cellSize*h),Quaternion.identity);
+                
+                Vector3 newPos = new Vector3(startPos.x + cellSize * w, startPos.y, startPos.z - cellSize * h);
+
+
+
+                visualMap[w, h] = Instantiate(mapCell, newPos, Quaternion.identity); 
+                
+                
+                
+               
+                
                 
             }
 
