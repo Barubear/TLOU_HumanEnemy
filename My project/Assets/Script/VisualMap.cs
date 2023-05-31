@@ -9,13 +9,13 @@ public class VisualMap : MonoBehaviour
     
     public GameObject mapCell;
     public GameObject ground;
-    
-    
+
+    public NavMap NavMap;
     public float visualHifht;
     
     public float cellSize = 1;
 
-    Vector3 startPos;
+    public Vector3 startPos;
     public GameObject[,] visualMap;
     // Start is called before the first frame update
     void Awake()
@@ -53,8 +53,33 @@ public class VisualMap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        visualize(NavMap.floatNavmap);
     }
+    void visualize(float[,] Map)
+    {
+        for (int w = 0; w < Map.GetLength(0); w++)
+        {
 
-    
-}
+            for (int h = 0; h < Map.GetLength(1); h++)
+            {
+                if (Map[w, h] == -1)
+                {
+                    visualMap[w, h].GetComponent<Renderer>().material.color = Color.black;
+                }
+                if (Map[w, h] == 1)
+                {
+                    visualMap[w, h].GetComponent<Renderer>().material.color = Color.green;
+                }
+                if (Map[w, h] == 2)//ÖÕµã
+                {
+                    visualMap[w, h].GetComponent<Renderer>().material.color = Color.red;
+                }
+                if (Map[w, h] == 3)//Æðµã
+                {
+                    visualMap[w, h].GetComponent<Renderer>().material.color = Color.yellow;
+                }
+            }
+
+        }
+    }
+}   
