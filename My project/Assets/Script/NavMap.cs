@@ -50,11 +50,15 @@ public class NavMap : MonoBehaviour
             bool res = Physics.Raycast(ray, out hit);
             if (res == true) {
                 Vector2Int sp = getCell(hit.point);
-                floatNavmap[sp.x, sp.y] = 3;
+                
                 Vector2Int ep = getCell(testEndPos.position);
                 floatNavmap[ep.x, ep.y] = 2;
                 A_Start a_Start = new A_Start(navMap);
-                //List<AstartCell> paths = a_Start.getPath(a_Start.navMap[sp.x, sp.y], a_Start.navMap[ep.x, ep.y]);
+                List<AstartCell> paths = a_Start.getPath(a_Start.navMap[sp.x, sp.y], a_Start.navMap[ep.x, ep.y]);
+                foreach (AstartCell a in paths) {
+                    floatNavmap[a.x, a.y] = 1;
+                }
+                floatNavmap[sp.x, sp.y] = 3;
             }
             
         
@@ -96,10 +100,13 @@ public class A_Start
     {
         startPoint.fatherCell = null;
         startPoint.G_Dis = 0;
+        startPoint.H_Dis = 0;
+        startPoint.F_Dis = 0;
         closeList.Add(startPoint);
         List<AstartCell> path = new List<AstartCell>();
         while(true)
         {
+            //Debug.Log(startPoint.fatherCell);
             int curX = startPoint.x;
             int curY = startPoint.y;
             //×ó
@@ -114,16 +121,17 @@ public class A_Start
             openList.Sort(sortOpenlist);
             startPoint = openList[0];
 
-
+            
             closeList.Add(startPoint);
-            openList.Remove(startPoint);
+            openList.RemoveAt(0);
             if (startPoint == Endpoint)
             {
+                Debug.Log("over");
 
-
-                path.Add(Endpoint);
-                while (Endpoint != null)
+                //path.Add(Endpoint);
+                while (Endpoint.fatherCell != null)
                 {
+                    //Debug.Log(Endpoint.fatherCell.x + "," + Endpoint.fatherCell.y);
                     path.Add(Endpoint.fatherCell);
                     Endpoint = Endpoint.fatherCell;
 
@@ -141,9 +149,9 @@ public class A_Start
     }
 
     void addCell(int x , int y, AstartCell startPoint, AstartCell Endpoint) {
-        Debug.Log(x+","+y+ "," + mapWhight +","+mapHight);
-        if (x >= 0 && x < mapWhight && y >= 0 && y < mapHight
-            ) {
+        //Debug.Log(x+","+y+ "," + mapWhight +","+mapHight);
+        if (x >= 0 && x < mapWhight && y >= 0 && y < mapHight &&
+             navMap[x, y].isWall == false && openList.Contains(navMap[x, y])==false && closeList.Contains(navMap[x, y]) == false) {
             AstartCell newcell = navMap[x, y];
             newcell.fatherCell = startPoint;
             newcell.G_Dis = startPoint.G_Dis + 1;
@@ -184,3 +192,4 @@ public class AstartCell
     }
     
 }
+
