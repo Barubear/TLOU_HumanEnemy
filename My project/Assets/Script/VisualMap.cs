@@ -17,10 +17,13 @@ public class VisualMap : MonoBehaviour
 
     public Vector3 startPos;
     public GameObject[,] visualMap;
+    
+    public float[,] floatNavmap;
     // Start is called before the first frame update
     void Awake()
     {
         visualMap = new GameObject[mapWidth, mapHight];
+        floatNavmap = new float[mapWidth, mapHight];
         Renderer renderer = ground.GetComponent<Renderer>();
         Vector3 size = renderer.bounds.size;
         Vector3 center = renderer.bounds.center;
@@ -35,14 +38,15 @@ public class VisualMap : MonoBehaviour
                 Vector3 newPos = new Vector3(startPos.x + cellSize * w, startPos.y, startPos.z - cellSize * h);
 
 
+                
+                visualMap[w, h] = Instantiate(mapCell, newPos, Quaternion.identity);
+                floatNavmap[w, h] = 0;
 
-                visualMap[w, h] = Instantiate(mapCell, newPos, Quaternion.identity); 
-                
-                
-                
-               
-                
-                
+
+
+
+
+
             }
 
             
@@ -53,10 +57,11 @@ public class VisualMap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        visualize(NavMap.floatNavmap);
+        visualizeTest(floatNavmap);
     }
-    void visualize(float[,] Map)
+    void visualizeTest(float[,] Map)
     {
+        
         for (int w = 0; w < Map.GetLength(0); w++)
         {
 
@@ -78,8 +83,18 @@ public class VisualMap : MonoBehaviour
                 {
                     visualMap[w, h].GetComponent<Renderer>().material.color = Color.yellow;
                 }
+                if (Map[w, h] == 0)
+                {
+                    visualMap[w, h].GetComponent<Renderer>().material.color = Color.white;
+                }
             }
 
         }
+    }
+
+    public Vector2Int postionToCell(Vector3 pos) {
+        return new Vector2Int((int)Mathf.Floor((pos.x - startPos.x) / cellSize),
+                                (int)Mathf.Floor((startPos.z - pos.z) / cellSize));
+
     }
 }   
