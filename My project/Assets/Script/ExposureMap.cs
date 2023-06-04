@@ -37,7 +37,7 @@ public class ExposureMap : MonoBehaviour
                 
                 Transform cell = VisualMap.visualMap[w, h].transform;
                 //æ‡¿Î
-                vauleMap[w, h] = 0;
+                vauleMap[w, h] = 1;
                 if (Vector2.Distance(new Vector2(w,h), AgentPos) <= visualDis) {
 
 
@@ -47,7 +47,7 @@ public class ExposureMap : MonoBehaviour
                     if (angle < visualAng ) {
 
                         //…‰œﬂ
-                        vauleMap[w, h] = 1;
+                        vauleMap[w, h] = 0 ;
                         RaycastHit hit;
                         if (Physics.Raycast(Agent.position, cell.position - Agent.position, out hit, Vector2.Distance(new Vector2(w, h), AgentPos)))
                         {
@@ -55,7 +55,7 @@ public class ExposureMap : MonoBehaviour
                             {
                                 if (hit.collider.gameObject.tag == "wall") {
                                     //Debug.DrawRay(Agent.position, new Vector3(cell.position.x, Agent.position.y, cell.position.z) - Agent.position, Color.red);
-                                    vauleMap[w, h] = 0;
+                                    vauleMap[w, h] = 1;
                                 }
                                     
                             }

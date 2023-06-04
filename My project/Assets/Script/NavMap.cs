@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NavMap : MonoBehaviour
+public class NavMap
+    
+    : MonoBehaviour
 {
     // Start is called before the first frame update
     public VisualMap VisualMap;
     GameObject[,] visualMap;
     public List<GameObject> wallList;
-    AstartCell[,] navMap;
+    public AstartCell[,] navMap;
     public float[,] floatNavmap;
     public Transform testEndPos;
 
@@ -40,7 +42,7 @@ public class NavMap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        testInput();
+        //testInput();
     }
     public void testInput() {
 

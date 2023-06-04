@@ -18,12 +18,12 @@ public class VisualMap : MonoBehaviour
     public Vector3 startPos;
     public GameObject[,] visualMap;
     
-    public float[,] floatNavmap;
+    public float[,] floatmap;
     // Start is called before the first frame update
     void Awake()
     {
         visualMap = new GameObject[mapWidth, mapHight];
-        floatNavmap = new float[mapWidth, mapHight];
+        floatmap = new float[mapWidth, mapHight];
         Renderer renderer = ground.GetComponent<Renderer>();
         Vector3 size = renderer.bounds.size;
         Vector3 center = renderer.bounds.center;
@@ -40,7 +40,7 @@ public class VisualMap : MonoBehaviour
 
                 
                 visualMap[w, h] = Instantiate(mapCell, newPos, Quaternion.identity);
-                floatNavmap[w, h] = 0;
+                floatmap[w, h] = 0;
 
 
 
@@ -57,7 +57,7 @@ public class VisualMap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        visualizeTest(floatNavmap);
+        visualizeTest(floatmap);
     }
     void visualizeTest(float[,] Map)
     {
@@ -67,26 +67,10 @@ public class VisualMap : MonoBehaviour
 
             for (int h = 0; h < Map.GetLength(1); h++)
             {
-                if (Map[w, h] == -1)
-                {
-                    visualMap[w, h].GetComponent<Renderer>().material.color = Color.black;
-                }
-                if (Map[w, h] == 1)
-                {
-                    visualMap[w, h].GetComponent<Renderer>().material.color = Color.green;
-                }
-                if (Map[w, h] == 2)//ÖÕµã
-                {
-                    visualMap[w, h].GetComponent<Renderer>().material.color = Color.red;
-                }
-                if (Map[w, h] == 3)//Æðµã
-                {
-                    visualMap[w, h].GetComponent<Renderer>().material.color = Color.yellow;
-                }
-                if (Map[w, h] == 0)
-                {
-                    visualMap[w, h].GetComponent<Renderer>().material.color = Color.white;
-                }
+                
+                    
+                    visualMap[w, h].GetComponent<Renderer>().material.color = new Color(floatmap[w,h], floatmap[w, h], floatmap[w, h]);
+                
             }
 
         }
