@@ -92,7 +92,8 @@ public class ExposureMap : MonoBehaviour
             Debug.Log("SEE!");
             SearchMap.valueMap[targetPos.x, targetPos.y] = 1;
             SearchMap.isSeeing = true;
-            SearchMap.target = target;
+            SearchMap.hasTarget = true;
+            SearchMap.target = target.position;
         }
         else {
             SearchMap.isSeeing = false;

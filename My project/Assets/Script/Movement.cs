@@ -28,7 +28,7 @@ public class Movement : MonoBehaviour
     float maxValue = 0 ;
     A_Start a_Start;
     List<AstartCell> paths;
-    
+    bool stop = false;
     public float speed;
     public visualMode visualMode = visualMode.All;
     
@@ -40,10 +40,20 @@ public class Movement : MonoBehaviour
         NavMeshAgent = GetComponent<NavMeshAgent>();
         maxCell = visualMap.postionToCell(transform.position);
     }
-    
+    private void Update()
+    {
+        if (Input.GetKeyDown("q")) {
+
+            if (stop) Time.timeScale = 1;
+            else Time.timeScale = 0;
+
+            stop = !stop;
+        }
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
+
         float dis = Vector3.Distance(transform.position, target.position);
         
         //抓住目标
@@ -83,20 +93,27 @@ public class Movement : MonoBehaviour
         //生成路径
             if (currCell != maxCell && auto)
             {
-            //Debug.Log(maxCell + "  "+ navMap.navMap[maxCell.x, maxCell.y].isWall);
-                
-                if (SearchMap.isSeeing) {
-                    NavMeshAgent.SetDestination(target.position);
+            //Debug.Log(maxValue );
 
-                }else{
+            if (SearchMap.isSeeing)
+            {
+                NavMeshAgent.SetDestination(target.position);
+
+            }
+            else if (maxValue > 0.5) {
+                NavMeshAgent.SetDestination(visualMap.visualMap[maxCell.x,maxCell.y].transform.position);
+            }
+            else
+            {
                 Debug.Log("巡逻！");
-                    patrolPointInt = patrolPointInt % (patrolPoints.Length-1);
-                    //按点巡逻
-                    if (Vector3.Distance(transform.position, patrolPoints[patrolPointInt].position)<5) {
-                        patrolPointInt++;
-                    }
-                    NavMeshAgent.SetDestination(patrolPoints[patrolPointInt].position);
+                patrolPointInt = patrolPointInt % (patrolPoints.Length - 1);
+                //按点巡逻
+                if (Vector3.Distance(transform.position, patrolPoints[patrolPointInt].position) < 5)
+                {
+                    patrolPointInt++;
                 }
+                NavMeshAgent.SetDestination(patrolPoints[patrolPointInt].position);
+            }
             }
 
             
