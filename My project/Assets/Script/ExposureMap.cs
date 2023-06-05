@@ -6,13 +6,16 @@ public class ExposureMap : MonoBehaviour
 {
     //workingMap
     public Transform Agent;
+    public Transform target;
     public VisualMap VisualMap;
+    public SearchMap SearchMap;
     public float visualDis = 90 ;
     public float visualAng = 30;
     public int mapWidth;
     public int mapHight;
     public float[,] vauleMap;
-    
+    List<Vector2Int> exposurePos;
+
     void Start()
     {
         vauleMap = new float[VisualMap.visualMap.GetLength(0), VisualMap.visualMap.GetLength(1)];
@@ -23,6 +26,7 @@ public class ExposureMap : MonoBehaviour
     {
         updataCell();
        Debug.DrawRay(Agent.position, Agent.forward*10, Color.red);
+        exposurePos = new List<Vector2Int>();
     }
 
 
@@ -38,29 +42,40 @@ public class ExposureMap : MonoBehaviour
                 Transform cell = VisualMap.visualMap[w, h].transform;
                 //距离
                 vauleMap[w, h] = 1;
-                if (Vector2.Distance(new Vector2(w,h), AgentPos) <= visualDis) {
+                float dis = Vector2.Distance(new Vector2(w, h), AgentPos);
+                if (dis <= visualDis) {
 
-
-                    //角度
-                    float angle = Vector2.Angle(new Vector2(Agent.forward.x, Agent.forward.z), new Vector2((cell.position - Agent.position ).x, (cell.position - Agent.position).z));
-                    //Debug.DrawRay(Agent.position, AgentPos - new Vector2(w, h) ,Color.red);
-                    if (angle < visualAng ) {
-
-                        //射线
-                        vauleMap[w, h] = 0 ;
-                        RaycastHit hit;
-                        if (Physics.Raycast(Agent.position, cell.position - Agent.position, out hit, Vector2.Distance(new Vector2(w, h), AgentPos)))
+                    //身边
+                    if (dis <= visualDis / 3)
+                    {
+                        vauleMap[w, h] = 0;
+                        
+                    }
+                    else {
+                        //角度
+                        float angle = Vector2.Angle(new Vector2(Agent.forward.x, Agent.forward.z), new Vector2((cell.position - Agent.position).x, (cell.position - Agent.position).z));
+                        //Debug.DrawRay(Agent.position, AgentPos - new Vector2(w, h) ,Color.red);
+                        if (angle < visualAng)
                         {
-                            if ( hit.collider!= null )
-                            {
-                                if (hit.collider.gameObject.tag == "wall") {
-                                    //Debug.DrawRay(Agent.position, new Vector3(cell.position.x, Agent.position.y, cell.position.z) - Agent.position, Color.red);
-                                    vauleMap[w, h] = 1;
-                                }
-                                    
-                            }
 
+                            //射线
+                            vauleMap[w, h] = 0;
+                            RaycastHit hit;
+                            if (Physics.Raycast(Agent.position, cell.position - Agent.position, out hit, Vector2.Distance(new Vector2(w, h), AgentPos)))
+                            {
+                                if (hit.collider != null)
+                                {
+                                    if (hit.collider.gameObject.tag == "wall")
+                                    {
+                                        //Debug.DrawRay(Agent.position, new Vector3(cell.position.x, Agent.position.y, cell.position.z) - Agent.position, Color.red);
+                                        vauleMap[w, h] = 1;
+                                    }
+
+                                }
+
+                            }
                         }
+                    
                         
                         
                     }
@@ -69,5 +84,19 @@ public class ExposureMap : MonoBehaviour
 
             }
         }
+
+        Vector2Int targetPos = VisualMap.postionToCell(target.position);
+
+        if (vauleMap[targetPos.x, targetPos.y] == 0)
+        {
+            Debug.Log("SEE!");
+            SearchMap.valueMap[targetPos.x, targetPos.y] = 1;
+            SearchMap.isSeeing = true;
+            SearchMap.target = target;
+        }
+        else {
+            SearchMap.isSeeing = false;
+        }
+        
     }
 }

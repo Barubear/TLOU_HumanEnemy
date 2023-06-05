@@ -32,8 +32,11 @@ public class PositionMap : MonoBehaviour
         {
             for (int h = 0; h < mapHight; h++)
             {
-                float dis = Vector3.Distance(agent.position, visualMap.visualMap[w, h].transform.position);
-                valueMap[w, h] = Mathf.Clamp(1 - spreadRate * (dis / MaxDis),0,1);
+                float dis = Vector3.Distance(agent.position, visualMap.visualMap[w, h].transform.position) ;
+                if (dis <=  0.5 * MaxDis) {
+                    valueMap[w, h] = 0;
+                }else
+                    valueMap[w, h] = Mathf.Clamp(spreadRate * (dis/ MaxDis),0,1);
 
 
             }

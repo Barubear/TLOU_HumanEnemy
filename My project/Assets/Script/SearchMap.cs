@@ -8,13 +8,15 @@ public class SearchMap : MonoBehaviour
     public int mapHight;
     public float[,] valueMap;
     public VisualMap visualMap;
-    public Transform target;
-
+    public Transform target = null;
+    public ExposureMap exposureMap;
+    public bool isSeeing = false;
     float currDis = 0;
     public float MaxDis;
     public float spreadSpeed;
     public float spreadRate;
     public float reduRate;
+    public float adjustSpeed;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,7 +42,10 @@ public class SearchMap : MonoBehaviour
     private void FixedUpdate()
     {
         spread();
-        if (target != null) {
+        if (isSeeing) {
+            currDis = 0;
+
+        }else if(target != null) {
             currDis += spreadSpeed;
             if (currDis > MaxDis) {
                 //超出可逃跑范围，停止扩散
@@ -66,23 +71,25 @@ public class SearchMap : MonoBehaviour
                 if (dis < MaxDis)//在目标可逃跑范围内
                 {
 
-                    valueMap[w, h] = Mathf.Clamp( (1 - (Mathf.Abs(currDis - dis)/ MaxDis) * spreadRate - (currDis/ MaxDis)* reduRate), 0.5f , 1);
+                    valueMap[w, h] = Mathf.Clamp( (1 - (Mathf.Abs(currDis - dis)/ MaxDis) * spreadRate - (currDis/ MaxDis)* reduRate), 0.5f , 1)*2;
 
 
                 }
                 else
                 {//不在目标可逃跑范围内
+                    
                     if (0.5f - valueMap[w, h] > tolerance)
                     {
-                        valueMap[w, h] += 0.01f;
+                        valueMap[w, h] += adjustSpeed;
 
                     }
                     if (valueMap[w, h] - 0.5f > tolerance)
                     {
-                        valueMap[w, h] -= 0.01f;
+                        valueMap[w, h] -= adjustSpeed;
 
                     }
                 }
+                //valueMap[w, h] *= exposureMap.vauleMap[w, h];
             }
         }
     }

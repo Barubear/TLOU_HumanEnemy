@@ -100,6 +100,9 @@ public class A_Start
 
     public List<AstartCell> getPath(AstartCell startPoint, AstartCell Endpoint)
     {
+        openList.Clear();
+        closeList.Clear();
+        //Debug.Log(Endpoint.x + "," + Endpoint.y);
         startPoint.fatherCell = null;
         startPoint.G_Dis = 0;
         startPoint.H_Dis = 0;
@@ -108,7 +111,7 @@ public class A_Start
         List<AstartCell> path = new List<AstartCell>();
         while(true)
         {
-            //Debug.Log(startPoint.fatherCell);
+            
             int curX = startPoint.x;
             int curY = startPoint.y;
             //×ó
